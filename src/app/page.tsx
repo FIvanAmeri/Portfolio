@@ -1,65 +1,80 @@
-import Image from "next/image";
+import Profile from "./components/Profile";
+import Contactame from "./components/Contactame";
+import ProjectCard from "./components/ProjectCard"; 
+import Peludopolis from "./components/PeludopolisCard"; 
+import Together from "./components/Together";
+import Declaracion from "./components/Declaracion"; 
+import AcercaDeMi from "./components/AcercaDeMi"; 
+import Testimonios from "./components/Testimonios"; 
+import CTA_Final from "./components/CTA_Final"; 
+
+const BARA_CREATIVA_HN = {
+  title: "BaraCreativaHn - Plataforma E-learning",
+  description: "Desarrollo y lanzamiento completo de una plataforma de e-learning robusta y escalable. Incluye gestión de cursos, seguimiento de progreso del estudiante, autenticación social y un sistema de administración de contenido (CMS) avanzado para la publicación de material educativo multimedia. La arquitectura está optimizada para el rendimiento y la experiencia de usuario.",
+  technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL (SQL)", "OAuth/NextAuth"],
+  imageSrc: "/Bara.png",
+  imageAlt: "Captura de pantalla de la plataforma BaraCreativaHn E-learning",
+  projectUrl: "https://www.baracreativahn.com" 
+};
+
+const PELUDOPOLIS_DATA = { 
+  title: "Peludópolis - Sistema de Turnos Online",
+  description: "Desarrollo de una plataforma completa para la gestión de turnos online para servicios de atención a mascotas (corte de pelo, baño, corte de uñas, etc.). Incluye sistema de pagos integrado con PayPal, reserva de horarios, notificaciones a usuarios y panel de administración para gestionar la disponibilidad y los servicios. Se utilizaron las mismas tecnologías robustas para asegurar escalabilidad.",
+  technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL (SQL)", "PayPal Integration"],
+  imageSrc: "/Peludopolis.png", 
+  imageAlt: "Captura de pantalla de la plataforma Peludópolis",
+  projectUrl: "https://www.peludopolis.com" 
+};
+
+const GO_TOGETHER = {
+  title: "Go Together - Consultoría Estratégica y Branding",
+  description: "Desarrollo de la presencia digital y herramientas para la firma de consultoría estratégica y branding de La Plata, liderada por Lucas De Cesare. El trabajo se centró en la creación de una plataforma que refleje su enfoque en estrategias de Marketing, Finanzas y Análisis de Datos. Incluyó el diseño de una interfaz profesional que destaca sus casos de éxito y su visión de negocio.",
+  technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Marketing Digital", "Branding"],
+  imageSrc: "/GoTogether.png",
+  imageAlt: "Captura de pantalla de la plataforma Go Together",
+  projectUrl: "https://gotogether.com.ar/" 
+};
+
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen p-8"> 
+   
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+        <Profile />
+        <div className="w-full md:w-auto mt-4 md:mt-0 flex justify-center md:justify-end">
+          <Contactame />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+
+      <Declaracion />
+
+      <AcercaDeMi /> 
+
+      <div className="futuristic-divider mt-10 mb-16 max-w-5xl mx-auto"></div>
+
+
+      <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-center mb-16 text-gray-900 dark:text-white pt-10 mt-0 px-4 leading-none">
+        <span className="block lg:inline">Proyectos</span>{" "}
+        <span className="block lg:inline">Destacados</span>
+      </h2>
+
+
+     <div className="mt-2">
+  <div className="-mb-12">
+    <ProjectCard {...BARA_CREATIVA_HN} />
+  </div>
+  <div className="mb-12">
+    <Peludopolis {...PELUDOPOLIS_DATA} /> 
+  </div>
+  <div className="mb-2 -mt-24">
+    <Together {...GO_TOGETHER} />
+  </div>
+</div>
+
+      <Testimonios />
+      <CTA_Final />
+      
+    </main>
   );
 }
