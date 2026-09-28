@@ -1,50 +1,41 @@
-'use client'; 
+'use client';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { useState, useEffect, useCallback } from 'react';
+/** Carrusel con autoplay que se reinicia tras interaccion manual. Sin timers duplicados. */
+export function useCarousel(total: number, intervalMs = 7000, lockMs = 350) {
+  const [index, setIndex] = useState(0);
+  const [locking, setLocking] = useState(false);
+  const gen = useRef(0);
+  const lockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const go = useCallback(
+    (next: number) => {
+      const g = ++gen.current;
+      setLocking(true);
+      if (lockTimer.current) clearTimeout(lockTimer.current);
+      setIndex(((next % total) + total) % total);
+      lockTimer.current = setTimeout(() => {
+        if (gen.current === g) setLocking(false);
+      }, lockMs);
+    },
+    [total, lockMs]
+  );
 
-export const useCarousel = (totalItems: number, intervalTime: number = 7000, transitionDuration: number = 500) => {
-  const [displayIndex, setDisplayIndex] = useState(0);
-  const [transitioning, setTransitioning] = useState(false); 
+  const next = useCallback(() => go(index + 1), [go, index]);
+  const prev = useCallback(() => go(index - 1), [go, index]);
 
-  const startTransition = useCallback((newIndex: number) => {
-    if (transitioning) return;
-    
-    setTransitioning(true);
-    
-
-    setTimeout(() => {
-      setDisplayIndex(newIndex);
-      setTimeout(() => setTransitioning(false), 50); 
-    }, transitionDuration); 
-  }, [transitioning, transitionDuration]);
-
-  const nextItem = useCallback(() => {
-    const newIndex = (displayIndex + 1) % totalItems;
-    startTransition(newIndex);
-  }, [displayIndex, totalItems, startTransition]);
-
-
-  const prevItem = useCallback(() => {
-    const newIndex = (displayIndex - 1 + totalItems) % totalItems;
-    startTransition(newIndex);
-  }, [displayIndex, totalItems, startTransition]);
-
- 
   useEffect(() => {
-    if (totalItems <= 1) return;
+    if (total <= 1) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = setInterval(() => {
+      setIndex((p) => (p + 1) % total);
+    }, intervalMs);
+    return () => clearInterval(id);
+  }, [total, intervalMs, index]);
 
-    const interval = setInterval(nextItem, intervalTime);
+  useEffect(() => () => {
+    if (lockTimer.current) clearTimeout(lockTimer.current);
+  }, []);
 
-
-    return () => clearInterval(interval);
-  }, [totalItems, intervalTime, nextItem]);
-
-  return {
-    currentIndex: displayIndex,
-    setCurrentIndex: startTransition,
-    nextItem,
-    prevItem,
-    transitioning, 
-  };
-};
+  return { currentIndex: index, setCurrentIndex: go, nextItem: next, prevItem: prev, transitioning: locking };
+}

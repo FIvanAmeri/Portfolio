@@ -1,130 +1,56 @@
 'use client';
-
 import { useState } from 'react';
 import Image from 'next/image';
 import { FiAward, FiMessageCircle, FiTool, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-
-const CERTIFICADOS = [
-  { 
-    id: 1, 
-    src: '/TituloHenry.jpg',
-    alt: 'Certificado de Desarrollador Web Full Stack de Henry' 
-  },
-  { 
-    id: 2, 
-    src: '/TAHenry.jpg',
-    alt: 'Certificado de Teaching Assistant de Henry' 
-  },
+import { CERTIFICADOS } from '@/data/content';
+import { SectionHeading } from '@/components/ui/SectionHeading';
+import { Reveal } from '@/components/motion/Reveal';
+const STR = [
+  { icon: FiAward, t: 'Graduado en Henry - Teaching Assistant', d: 'Formacion Full Stack certificada, metodologias agiles y gestion de equipos.' },
+  { icon: FiTool, t: 'Resolucion de problemas', d: 'Debugging y analisis de codigo complejo en proyectos criticos.' },
+  { icon: FiMessageCircle, t: 'Comunicacion y mentoreo', d: 'Traduzco lo tecnico a lenguaje de negocio y acompano a otros devs.' },
 ];
-
 export default function AcercaDeMi() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const currentCertificado = CERTIFICADOS[currentIndex];
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % CERTIFICADOS.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + CERTIFICADOS.length) % CERTIFICADOS.length);
-  };
-
+  const [i, setI] = useState(0);
+  const cur = CERTIFICADOS[i];
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center rounded-xl p-8 bg-white/5 dark:bg-gray-800/20 backdrop-blur-sm shadow-xl">
-        
-
-        <div className="order-last md:order-first">
-          <div className="relative w-full h-80 rounded-xl shadow-2xl overflow-hidden border border-white/10">
-            <Image
-              src={currentCertificado.src}
-              alt={currentCertificado.alt}
-              layout="fill"
-              objectFit="cover"
-              className="transition-opacity duration-500"
-              priority
-              unoptimized
-            />
-            
-  
-            {CERTIFICADOS.length > 1 && (
-              <>
-                <button
-                  onClick={prevSlide}
-                  className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2 bg-black/40 text-white hover:bg-black/60 transition-colors z-20 rounded-r-lg"
-                >
-                  <FiChevronLeft className="w-6 h-6" />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 bg-black/40 text-white hover:bg-black/60 transition-colors z-20 rounded-l-lg"
-                >
-                  <FiChevronRight className="w-6 h-6" />
-                </button>
-              </>
-            )}
-
-       
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-              {CERTIFICADOS.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full cursor-pointer ${
-                    index === currentIndex ? 'bg-yellow-400' : 'bg-gray-400 opacity-60'
-                  }`}
-                  onClick={() => setCurrentIndex(index)}
-                />
+    <section aria-labelledby="trayectoria-title" className="scroll-mt-24 py-10 md:py-14">
+      <Reveal><SectionHeading id="trayectoria-title" eyebrow="01 - Sobre mi" title="Trayectoria con foco en producto" description="Del backend a la experiencia de usuario: software robusto que aporta valor medible." /></Reveal>
+      <div className="grid items-stretch gap-6 lg:grid-cols-[1fr_1.05fr] lg:gap-8">
+        <Reveal d={0.05}>
+          <div className="flex h-full flex-col rounded-[var(--radius)] border border-[var(--border)] bg-[var(--surface)] p-6 md:p-8">
+            <p className="text-base leading-relaxed text-zinc-200 md:text-lg">Soy <strong className="font-semibold text-white">Desarrollador Full Stack</strong>: convierto requisitos ambiguos en plataformas claras, rapidas y mantenibles.</p>
+            <ul className="mt-7 border-t border-[var(--border)]">
+              {STR.map((s) => (
+                <li key={s.t} className="flex items-start gap-4 border-b border-[var(--border)] py-4">
+                  <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-white/[0.03]"><s.icon className="h-4 w-4 text-[var(--accent)]" aria-hidden="true" /></span>
+                  <div><p className="text-sm font-semibold md:text-[15px]">{s.t}</p><p className="mt-1 text-sm text-[var(--muted)]">{s.d}</p></div>
+                </li>
               ))}
-            </div>
-
+            </ul>
+            <p className="mt-auto pt-6 font-mono text-xs text-[var(--faint)]">STACK PRINCIPAL - JavaScript - TypeScript - React - Node.js - Next.js - Tailwind</p>
           </div>
-        </div>
-
-  
-        <div className="order-first md:order-last text-gray-200">
-          <h2 className="text-4xl font-extrabold text-white mb-6">
-            Mi Trayectoria
-          </h2>
-          
-          <p className="text-lg mb-6">
-            Comencé mi camino fascinado por la lógica del Backend y la inmediatez del Frontend, lo que me llevó a convertirme en un <span className="text-yellow-400 font-semibold">Desarrollador Full Stack</span>. Mi filosofía es simple: construir soluciones robustas y escalables que entreguen un valor real y medible al negocio.
-          </p>
-
-          <h3 className="text-2xl font-semibold text-white mb-4">
-            Formación y Habilidades Únicas
-          </h3>
-          
-          <ul className="space-y-4">
-            <li className="flex items-start">
-              <FiAward className="shrink-0 text-yellow-400 w-6 h-6 mr-3 mt-1" />
-              <div>
-                <p className="font-medium text-white">Graduado en Henry y Teaching Assistant</p>
-                <p className="text-sm text-gray-300">
-                  Certificado como Desarrollador Web Full Stack. La experiencia como TA me dio dominio en las metodologías ágiles y la gestión de equipos.
-                </p>
+        </Reveal>
+        <Reveal d={0.1}>
+          <figure className="overflow-hidden rounded-[var(--radius)] border border-[var(--border)] bg-[var(--surface)]">
+            <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-3.5">
+              <figcaption className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">Certificaciones - {i + 1}/{CERTIFICADOS.length}</figcaption>
+              <div className="flex gap-1.5">
+                <button onClick={() => setI((p) => (p - 1 + CERTIFICADOS.length) % CERTIFICADOS.length)} aria-label="Ver certificado anterior" className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] transition-colors hover:border-zinc-500"><FiChevronLeft aria-hidden="true" /></button>
+                <button onClick={() => setI((p) => (p + 1) % CERTIFICADOS.length)} aria-label="Ver certificado siguiente" className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] transition-colors hover:border-zinc-500"><FiChevronRight aria-hidden="true" /></button>
               </div>
-            </li>
-            <li className="flex items-start">
-              <FiTool className="shrink-0 text-yellow-400 w-6 h-6 mr-3 mt-1" />
-              <div>
-                <p className="font-medium text-white">Resolución Avanzada de Problemas</p>
-                <p className="text-sm text-gray-300">
-                  Desarrollé una profunda habilidad para el debugging y el análisis de código complejo, vital para proyectos críticos.
-                </p>
+            </div>
+            <div className="relative aspect-[16/10] bg-zinc-950"><Image key={cur.src} src={cur.src} alt={cur.alt} fill sizes="(max-width:1024px) 100vw,560px" style={{ objectFit: 'cover' }} /></div>
+            <div className="flex items-center justify-between gap-3 px-5 py-4">
+              <p className="truncate text-sm text-[var(--muted)]">{cur.alt}</p>
+              <div className="flex gap-1.5" role="tablist" aria-label="Seleccionar certificado">
+                {CERTIFICADOS.map((c, idx) => (
+                  <button key={c.id} role="tab" aria-selected={idx === i} aria-label={`Ver certificado ${idx + 1}`} onClick={() => setI(idx)} className="inline-flex h-8 w-8 items-center justify-center"><span className={`block h-1.5 rounded-full ${idx === i ? 'w-6 bg-[var(--accent)]' : 'w-1.5 bg-zinc-600'}`} /></button>
+                ))}
               </div>
-            </li>
-            <li className="flex items-start">
-              <FiMessageCircle className="shrink-0 text-yellow-400 w-6 h-6 mr-3 mt-1" />
-              <div>
-                <p className="font-medium text-white">Comunicación Técnica y Mentoreo</p>
-                <p className="text-sm text-gray-300">
-                  Capacidad para traducir problemas técnicos complejos a lenguaje de negocio y para formar y guiar a otros desarrolladores.
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-        
+            </div>
+          </figure>
+        </Reveal>
       </div>
     </section>
   );
